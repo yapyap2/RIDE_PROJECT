@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/RIDE
+    username: root
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: create
