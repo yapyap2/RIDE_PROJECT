@@ -24,6 +24,7 @@ public class User {
     private String locationCode;
 
 
+
     @Builder
     public User(String UID, String name, int age, float ftp,int sex, String location_code) {
         this.UID = UID;
