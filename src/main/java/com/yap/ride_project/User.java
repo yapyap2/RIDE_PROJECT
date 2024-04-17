@@ -21,14 +21,16 @@ public class User {
     private int age;
     private Sex sex;
     private float ftp;
+    private String locationCode;
 
 
     @Builder
-    public User(String UID, String name, int age, float ftp,int sex) {
+    public User(String UID, String name, int age, float ftp,int sex, String location_code) {
         this.UID = UID;
         this.name = name;
         this.age = age;
         this.sex = (sex == 1) ? Sex.MALE : Sex.FEMALE;
         this.ftp = ftp;
+        this.locationCode = location_code;
     }
 }
