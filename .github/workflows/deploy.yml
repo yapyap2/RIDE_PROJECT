@@ -55,7 +55,7 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
           chmod 600 private_key.pem
           scp -i private_key.pem -o StrictHostKeyChecking=no build/libs/RIDE_PROJECT-0.0.1-SNAPSHOT.jar ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/ride_server.jar
-          ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "pgrep java | xargs -I {} kill -9 {}; nohup java -jar -DPROD_DB_URL=jdbc:mysql://yapdb.c7uknqplmcnk.ap-northeast-2.rds.amazonaws.com/RIDE /home/${{ secrets.EC2_USERNAME }}/ride_server.jar --spring.profiles.active=prod > app.log 2>&1 &"
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "pgrep java | xargs -I {} kill -9 {}; nohup java -jar /home/${{ secrets.EC2_USERNAME }}/ride_server.jar --spring.profiles.active=prod > app.log 2>&1 &"
           rm -f private_key.pem
 
 
