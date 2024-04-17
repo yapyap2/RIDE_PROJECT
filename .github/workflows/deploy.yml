@@ -4,6 +4,9 @@ on:
   push:
     branches: ["master"]
 
+  workflow_dispatch:
+
+
 permissions:
   contents: read
 
@@ -48,7 +51,7 @@ jobs:
           path: build/libs
 
       - name: deploy to ec2
-        run:
+        run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
           chmod 600 private_key.pem
           scp -i private_key.pem -o StrictHostKeyChecking=no build/libs/trelloServer-0.0.1-SNAPSHOT.jar ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/trelloServer.jar
