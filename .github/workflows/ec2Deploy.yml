@@ -1,0 +1,8 @@
+name: ec2 deploy
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
