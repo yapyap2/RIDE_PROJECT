@@ -2,7 +2,7 @@ name: ec2 deploy 2
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
 
 permissions:
   contents: read
