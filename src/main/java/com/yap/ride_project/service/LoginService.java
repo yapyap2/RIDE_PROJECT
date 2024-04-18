@@ -26,7 +26,7 @@ public class LoginService {
                 .gender(dto.getGender())
                 .ftp(dto.getFtp())
                 .location_code(dto.getLocationCode())
-                .startAt(LocalDate.parse(dto.getStartAt() + "-01", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .startAt(dto.getStartAt())
                 .bikeType(dto.getBikeType())
                 .build();
 

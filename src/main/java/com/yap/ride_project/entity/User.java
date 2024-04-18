@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -38,14 +39,16 @@ public class User {
 
 
     @Builder
-    public User(String UID, String name, int age, float ftp,int gender, String location_code, List<BikeType> bikeType, LocalDate startAt) {
+    public User(String UID, String name, int age, float ftp,int gender, String location_code, List<BikeType> bikeType, String startAt) {
         this.UID = UID;
         this.name = name;
         this.age = age;
         this.gender = (gender == 1) ? Gender.MALE : Gender.FEMALE;
         this.ftp = ftp;
         this.locationCode = location_code;
-        this.startAt = startAt;
+        if(startAt != null){
+            this.startAt = LocalDate.parse(startAt + "-01", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
         this.bikeType = bikeType;
     }
 }
