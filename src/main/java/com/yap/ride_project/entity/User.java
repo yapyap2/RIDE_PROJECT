@@ -43,7 +43,7 @@ public class User {
         this.UID = UID;
         this.name = name;
         this.age = age;
-        this.gender = (gender == 1) ? Gender.MALE : Gender.FEMALE;
+        this.gender = (gender == 0) ? Gender.MALE : Gender.FEMALE;
         this.ftp = ftp;
         this.locationCode = location_code;
         if(startAt != null){
