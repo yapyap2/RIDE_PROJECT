@@ -3,6 +3,7 @@ package com.yap.ride_project.service;
 import com.yap.ride_project.entity.User;
 import com.yap.ride_project.dto.SignInRequestDTO;
 import com.yap.ride_project.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class UserService {
 
     private final UserRepository userRepository;
 
@@ -32,6 +33,10 @@ public class LoginService {
 
         userRepository.save(user);
         return user;
+    }
+
+    public User getUser(Long id){
+        return userRepository.findUserByID(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
     }
 
 }

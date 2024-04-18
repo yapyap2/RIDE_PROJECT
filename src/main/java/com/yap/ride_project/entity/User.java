@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.time.LocalDate;
@@ -31,6 +33,12 @@ public class User {
     private float ftp;
     private String locationCode;
     private LocalDate startAt;
+
+    @CreationTimestamp
+    private LocalDate createAt;
+    @UpdateTimestamp
+    private LocalDate updateAt;
+    private LocalDate deleteAt;
     @ElementCollection(targetClass = BikeType.class)
     @CollectionTable(name = "BIKE_TYPE", joinColumns = @JoinColumn(name = "USER_ID"))
     @Enumerated(EnumType.STRING)
