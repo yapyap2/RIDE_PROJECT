@@ -1,13 +1,10 @@
 package com.yap.ride_project.controller.controllerAdvice;
 
-import com.yap.ride_project.User;
 import com.yap.ride_project.dto.ErrorResponseDTO;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestControllerAdvice
 public class LoginControllerAdvice {

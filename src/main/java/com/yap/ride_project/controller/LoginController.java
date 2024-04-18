@@ -1,6 +1,6 @@
 package com.yap.ride_project.controller;
 
-import com.yap.ride_project.User;
+import com.yap.ride_project.entity.User;
 import com.yap.ride_project.dto.SignInRequestDTO;
 import com.yap.ride_project.service.LoginService;
 import lombok.RequiredArgsConstructor;
