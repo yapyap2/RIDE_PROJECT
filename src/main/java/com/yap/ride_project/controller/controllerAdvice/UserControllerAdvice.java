@@ -40,6 +40,7 @@ public class UserControllerAdvice {
     }
 
 
+    @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> noSuchUser(EntityNotFoundException e){
 
         ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.NOT_FOUND)
