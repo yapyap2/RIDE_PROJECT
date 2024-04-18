@@ -13,5 +13,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAll();
 
     @EntityGraph(attributePaths = {"bikeType"})
-    Optional<User> findUserByID(Long id);
+    Optional<User> findUserByUserId(Long id);
 }

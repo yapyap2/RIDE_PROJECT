@@ -23,7 +23,7 @@ public class UserController {
     public ResponseEntity<Map<String, Long>> signIn(@RequestBody @Valid SignInRequestDTO requestDTO){
         User user = userService.signIn(requestDTO);
         Map<String, Long> map = new HashMap<>();
-        map.put("id", user.getID());
+        map.put("user_id", user.getUserId());
         return ResponseEntity.ok(map);
     }
 

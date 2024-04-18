@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class UserService {
     }
 
     public User getUser(Long id){
-        return userRepository.findUserByID(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
+        return userRepository.findUserByUserId(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with user_id: " + id));
     }
 
 }
