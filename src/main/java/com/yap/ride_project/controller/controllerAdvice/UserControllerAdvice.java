@@ -1,6 +1,7 @@
 package com.yap.ride_project.controller.controllerAdvice;
 
 import com.yap.ride_project.dto.ErrorResponseDTO;
+import com.yap.ride_project.exception.NotSuchUserException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
@@ -40,8 +41,8 @@ public class UserControllerAdvice {
     }
 
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> noSuchUser(EntityNotFoundException e){
+    @ExceptionHandler(NotSuchUserException.class)
+    public ResponseEntity<ErrorResponseDTO> noSuchUser(NotSuchUserException e){
 
         ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.NOT_FOUND)
                 .errorMsg("id에 해당하는 유저 없음").exceptionMsg(e.getMessage()).build();

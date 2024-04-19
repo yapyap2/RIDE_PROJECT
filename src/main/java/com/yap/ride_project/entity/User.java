@@ -1,5 +1,6 @@
 package com.yap.ride_project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yap.ride_project.entity.enums.BikeType;
 import com.yap.ride_project.entity.enums.Gender;
 import jakarta.persistence.*;
@@ -9,10 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -33,7 +32,9 @@ public class User {
     private float ftp;
     private String locationCode;
     private LocalDate startAt;
-
+    @OneToMany(mappedBy = "ownerUser", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Ride> ownRide;
     @CreationTimestamp
     private LocalDate createAt;
     @UpdateTimestamp

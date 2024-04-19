@@ -2,6 +2,7 @@ package com.yap.ride_project.service;
 
 import com.yap.ride_project.entity.User;
 import com.yap.ride_project.dto.SignInRequestDTO;
+import com.yap.ride_project.exception.NotSuchUserException;
 import com.yap.ride_project.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class UserService {
     }
 
     public User getUser(Long id){
-        return userRepository.findUserByUserId(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with user_id: " + id));
+        return userRepository.findUserByUserId(id).orElseThrow(() -> new NotSuchUserException(id));
     }
 
 }
