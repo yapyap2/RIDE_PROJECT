@@ -1,8 +1,7 @@
 package com.yap.ride_project.controller.controllerAdvice;
 
-import com.yap.ride_project.dto.ErrorResponseDTO;
+import com.yap.ride_project.dto.request.ErrorResponseDTO;
 import com.yap.ride_project.exception.NotSuchUserException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;

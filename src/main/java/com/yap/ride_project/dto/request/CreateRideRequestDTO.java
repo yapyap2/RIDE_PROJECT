@@ -1,4 +1,4 @@
-package com.yap.ride_project.dto;
+package com.yap.ride_project.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;

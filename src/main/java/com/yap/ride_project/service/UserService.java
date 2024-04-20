@@ -1,10 +1,9 @@
 package com.yap.ride_project.service;
 
 import com.yap.ride_project.entity.User;
-import com.yap.ride_project.dto.SignInRequestDTO;
+import com.yap.ride_project.dto.request.SignInRequestDTO;
 import com.yap.ride_project.exception.NotSuchUserException;
 import com.yap.ride_project.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

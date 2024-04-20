@@ -1,4 +1,4 @@
-package com.yap.ride_project.dto;
+package com.yap.ride_project.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;

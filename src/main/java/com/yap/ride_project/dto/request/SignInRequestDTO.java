@@ -1,4 +1,4 @@
-package com.yap.ride_project.dto;
+package com.yap.ride_project.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yap.ride_project.entity.enums.BikeType;
