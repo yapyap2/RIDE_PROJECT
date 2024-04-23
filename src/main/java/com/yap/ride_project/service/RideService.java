@@ -63,7 +63,7 @@ public class RideService {
             if(key.equals("name")) builder.and(ride.rideName.contains((String) query.get(key)));
             if(key.equals("distance_upper_limit")) builder.and(ride.distance.loe(Double.parseDouble((String) query.get("distanceUpperLimit"))));
             if(key.equals("distance_lower_limit")) builder.and(ride.distance.goe(Double.parseDouble((String) query.get("distanceLowerLimit"))));
-            if(key.equals("start_location_code")) builder.and(ride.startLocationCode.eq((String) query.get("startLocationCode")));
+            if(key.equals("start_location_code")) builder.and(ride.startLocationCode.eq((String) query.get("start_location_code")));
             if(key.equals("start_date_left")) builder.and(ride.startDate.after(LocalDateTime.parse((String) query.get("startDateLeft")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             if(key.equals("start_date_right")) builder.and(ride.startDate.before(LocalDateTime.parse((String) query.get("startDateRight")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             if(key.equals("bike_type")){
