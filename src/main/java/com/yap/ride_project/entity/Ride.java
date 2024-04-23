@@ -32,17 +32,12 @@ public class Ride {
     private Integer ageLimit;
     private Integer participantLimit;
     private Integer participantMinimum;
-    @Builder.Default
+
     private boolean roadbike = false;
-    @Builder.Default
     private boolean mtb = false;
-    @Builder.Default
     private boolean minivelo = false;
-    @Builder.Default
     private boolean cx = false;
-    @Builder.Default
     private boolean none = false;
-    @Builder.Default
     private boolean hybrid = false;
 
     @CreationTimestamp

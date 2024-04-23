@@ -1,6 +1,7 @@
 package com.yap.ride_project.controller.controllerAdvice;
 
 import com.yap.ride_project.dto.request.ErrorResponseDTO;
+import com.yap.ride_project.exception.BikeTypeParsingException;
 import com.yap.ride_project.exception.NotSuchRideException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,14 @@ public class RideControllerAdvice {
                 .errorMsg("id에 해당하는 라이드 없음").exceptionMsg(e.getMessage()).build();
 
         return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BikeTypeParsingException.class)
+    public ResponseEntity<ErrorResponseDTO> bikeTypeParsingError(BikeTypeParsingException e){
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.BAD_REQUEST)
+                .errorMsg("자전거 타입 파싱 에러").exceptionMsg(e.getMessage()).build();
+
+        return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.BAD_REQUEST);
     }
 
     private static HttpHeaders getHttpHeader() {

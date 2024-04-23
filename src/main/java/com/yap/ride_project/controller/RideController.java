@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +30,15 @@ public class RideController {
     @GetMapping("/rideList")
     public ResponseEntity<List<SimpleRideResponseDTO>> getRideList(){
 
-        return ResponseEntity.ok(rideService.getSimpleRideList());
+        return ResponseEntity.ok(rideService.getAllRide());
+    }
+
+    @GetMapping("/rideList/query")
+    public ResponseEntity<List<SimpleRideResponseDTO>> findRideList(@RequestParam Map<String, Object> queryMap){
+
+
+
+        return ResponseEntity.ok(rideService.queryRide(queryMap));
     }
 
 }
