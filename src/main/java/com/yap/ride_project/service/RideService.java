@@ -67,7 +67,8 @@ public class RideService {
             if(key.equals("start_date_left")) builder.and(ride.startDate.after(LocalDateTime.parse((String) query.get("start_date_left")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             if(key.equals("start_date_right")) builder.and(ride.startDate.before(LocalDateTime.parse((String) query.get("start_date_right")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             if(key.equals("bike_type")){
-                for(String type : (List<String>) query.get(key)){
+                String typeStr = (String) query.get("bike_type");
+                for(String type : typeStr.split(",")){
                     if(type.equals("R")) builder.and(ride.roadbike.isTrue());
                     if(type.equals("M")) builder.and(ride.mtb.isTrue());
                     if(type.equals("H")) builder.and(ride.hybrid.isTrue());
