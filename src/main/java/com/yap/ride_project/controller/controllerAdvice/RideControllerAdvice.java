@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 public class RideControllerAdvice {
@@ -24,16 +25,24 @@ public class RideControllerAdvice {
 
     @ExceptionHandler(BikeTypeParsingException.class)
     public ResponseEntity<ErrorResponseDTO> bikeTypeParsingError(BikeTypeParsingException e){
-        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.UNPROCESSABLE_ENTITY)
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.BAD_REQUEST)
                 .errorMsg("자전거 타입 파싱 에러").exceptionMsg(e.getMessage()).build();
 
-        return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RideQueryParameterException.class)
     public ResponseEntity<ErrorResponseDTO> rideQueryParameterException(RideQueryParameterException e){
-        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.UNPROCESSABLE_ENTITY)
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.BAD_REQUEST)
                 .errorMsg("검색 쿼리파라미터 파싱 에러").exceptionMsg(e.getMessage()).build();
+
+        return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponseDTO> rideQueryParameterException(MethodArgumentTypeMismatchException e){
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.BAD_REQUEST)
+                .errorMsg("검색 쿼리파라미터 바인딩 에러. 데이터타입이 잘못됨").exceptionMsg("필드명: " + e.getName() + " 파라미터 값: " + e.getValue().toString() + " 가 잘못되었습니다.").build();
 
         return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.BAD_REQUEST);
     }

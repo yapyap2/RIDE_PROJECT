@@ -3,6 +3,7 @@ package com.yap.ride_project.controller;
 import com.yap.ride_project.entity.User;
 import com.yap.ride_project.dto.request.SignInRequestDTO;
 import com.yap.ride_project.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "유저 정보 관련 API")
 public class UserController {
 
     private final UserService userService;

@@ -58,7 +58,6 @@ public class RideService {
 
         BooleanBuilder builder = query.getBuilder();
 
-
         List<SimpleRideQueryDSL> result = jpaQueryFactory
                 .select(Projections.fields(SimpleRideQueryDSL.class, ride.rideId, ride.rideName, ride.distance, ride.elevation, ride.startLocationCode, ride.startDate, ride.ownerUserId))
                 .from(ride)
