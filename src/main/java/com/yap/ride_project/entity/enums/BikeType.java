@@ -1,6 +1,7 @@
 package com.yap.ride_project.entity.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.yap.ride_project.exception.BikeTypeParsingException;
 
 public enum BikeType {
 
@@ -13,7 +14,8 @@ public enum BikeType {
         if(source.equals("V")) return BikeType.MINIVELO;
         if(source.equals("C")) return BikeType.CX;
         if(source.equals("H")) return BikeType.HYBRID;
-        return BikeType.NONE;
+        if(source.equals("N")) return BikeType.NONE;
+        else throw new BikeTypeParsingException("해당하는 자전거 타입이 존재하지 않습니다. typeString: " + source);
     }
 
 }

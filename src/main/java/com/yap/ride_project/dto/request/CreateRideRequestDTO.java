@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.yap.ride_project.entity.enums.BikeType;
 import com.yap.ride_project.exception.BikeTypeParsingException;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -50,26 +51,24 @@ public class CreateRideRequestDTO {
     private Integer participantLimit;
     @JsonProperty("participant_minimum")
     private Integer participantMinimum;
-    @NotNull
+    @NotEmpty
     @JsonProperty("bike_type")
     @JsonDeserialize(using = BikeTypeListDeserializer.class)
-    private List<String> bikeType;
-
-
+    private List<BikeType> bikeType;
 }
 
-class BikeTypeListDeserializer extends JsonDeserializer<List<String>> {
+class BikeTypeListDeserializer extends JsonDeserializer<List<BikeType>> {
 
     private static final List<String> allowBikeType = Arrays.asList("R","M", "V", "N", "H", "C");
 
     @Override
-    public List<String> deserialize(JsonParser p, DeserializationContext deserializationContext) throws IOException {
+    public List<BikeType> deserialize(JsonParser p, DeserializationContext deserializationContext) throws IOException {
 
         String[] values = p.readValueAs(String[].class);
-        List<String> list = new ArrayList<>();
-        for (String value : values) {
-            if(allowBikeType.contains(value)) list.add(value);
-            else throw new BikeTypeParsingException("해당하는 자전거 타입이 존재하지 않습니다. typeString: " + value);
+        List<BikeType> list = new ArrayList<>();
+        for (String type : values) {
+            if(allowBikeType.contains(type)) list.add(BikeType.from(type));
+            else throw new BikeTypeParsingException("해당하는 자전거 타입이 존재하지 않습니다. typeString: " + type);
         }
 
 

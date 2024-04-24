@@ -12,6 +12,7 @@ import com.yap.ride_project.entity.SimpleRideQueryDSL;
 import com.yap.ride_project.entity.User;
 import com.yap.ride_project.exception.NotSuchRideException;
 import com.yap.ride_project.exception.NotSuchUserException;
+import com.yap.ride_project.exception.RideQueryParameterException;
 import com.yap.ride_project.repository.RideRepository;
 import com.yap.ride_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,28 +55,35 @@ public class RideService {
 
     public List<SimpleRideResponseDTO> queryRide(Map<String, Object> query){
 
-        if(!query.containsKey("startDateLeft")){
-            query.put("startDateLeft", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        if(!query.containsKey("start_date_left")){
+            query.put("start_date_left", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         }
 
         BooleanBuilder builder = new BooleanBuilder();
         for(String key : query.keySet()){
-            if(key.equals("name")) builder.and(ride.rideName.contains((String) query.get(key)));
-            if(key.equals("distance_upper_limit")) builder.and(ride.distance.loe(Double.parseDouble((String) query.get("distance_upper_limit"))));
-            if(key.equals("distance_lower_limit")) builder.and(ride.distance.goe(Double.parseDouble((String) query.get("distance_lower_limit"))));
-            if(key.equals("start_location_code")) builder.and(ride.startLocationCode.eq((String) query.get("start_location_code")));
-            if(key.equals("start_date_left")) builder.and(ride.startDate.after(LocalDateTime.parse((String) query.get("start_date_left")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-            if(key.equals("start_date_right")) builder.and(ride.startDate.before(LocalDateTime.parse((String) query.get("start_date_right")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-            if(key.equals("bike_type")){
-                String typeStr = (String) query.get("bike_type");
-                for(String type : typeStr.split(",")){
-                    if(type.equals("R")) builder.and(ride.roadbike.isTrue());
-                    if(type.equals("M")) builder.and(ride.mtb.isTrue());
-                    if(type.equals("H")) builder.and(ride.hybrid.isTrue());
-                    if(type.equals("V")) builder.and(ride.minivelo.isTrue());
-                    if(type.equals("N")) builder.and(ride.none.isTrue());
-                    if(type.equals("C")) builder.and(ride.cx.isTrue());
+            switch (key){
+                case "name" : builder.and(ride.rideName.contains((String) query.get(key))); break;
+                case "distance_upper_limit" : builder.and(ride.distance.loe(Double.parseDouble((String) query.get("distance_upper_limit")))); break;
+                case "distance_lower_limit" : builder.and(ride.distance.goe(Double.parseDouble((String) query.get("distance_lower_limit")))); break;
+                case "start_location_code" : builder.and(ride.startLocationCode.eq((String) query.get("start_location_code"))); break;
+                case "start_date_left" : builder.and(ride.startDate.after(LocalDateTime.parse((String) query.get("start_date_left")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))); break;
+                case "start_date_right" : builder.and(ride.startDate.before(LocalDateTime.parse((String) query.get("start_date_right")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))); break;
+                case "bike_type" : {
+                    String typeStr = (String) query.get("bike_type");
+                    for(String type : typeStr.split(",")){
+                        switch (type){
+                            case "R" : builder.and(ride.roadbike.isTrue()); break;
+                            case "M" : builder.and(ride.mtb.isTrue()); break;
+                            case "H" : builder.and(ride.hybrid.isTrue()); break;
+                            case "V" : builder.and(ride.minivelo.isTrue()); break;
+                            case "N" : builder.and(ride.none.isTrue()); break;
+                            case "C" : builder.and(ride.cx.isTrue()); break;
+                            default: throw new RideQueryParameterException("잘못된 bike_type type: " + type);
+                        }
+                    }
+                    break;
                 }
+                default: throw new RideQueryParameterException("잘못된 쿼리파라미터 key: " + key + " / value: " + query.get(key));
             }
         }
 

@@ -1,6 +1,7 @@
 package com.yap.ride_project.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.yap.ride_project.entity.enums.BikeType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -55,7 +56,7 @@ public class Ride {
     private Long ownerUserId;
 
     @Builder
-    public Ride(String rideName, String description, Double distance, Double elevation, String startLocationCode, LocalDateTime startDate, Integer estimateTime, Integer ftpLimit, Integer ageLimit, Integer participantLimit, Integer participantMinimum, List<String> bikeType, User ownerUser) {
+    public Ride(String rideName, String description, Double distance, Double elevation, String startLocationCode, LocalDateTime startDate, Integer estimateTime, Integer ftpLimit, Integer ageLimit, Integer participantLimit, Integer participantMinimum, List<BikeType> bikeType, User ownerUser) {
         this.rideName = rideName;
         this.description = description;
         this.distance = distance;
@@ -68,13 +69,13 @@ public class Ride {
         this.participantLimit = participantLimit;
         this.participantMinimum = participantMinimum;
 
-        for (String s : bikeType) {
-            if (s.equals("R")) roadbike = true;
-            else if (s.equals("M")) mtb = true;
-            else if (s.equals("V")) minivelo = true;
-            else if (s.equals("H")) hybrid = true;
-            else if (s.equals("N")) none = true;
-            else if (s.equals("C")) cx = true;
+        for (BikeType type : bikeType) {
+            if (type == BikeType.ROADBIKE) roadbike = true;
+            else if (type == BikeType.MTB) mtb = true;
+            else if (type == BikeType.MINIVELO) minivelo = true;
+            else if (type == BikeType.HYBRID) hybrid = true;
+            else if (type == BikeType.NONE) none = true;
+            else if (type == BikeType.CX) cx = true;
         }
 
         this.ownerUser = ownerUser;

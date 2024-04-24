@@ -3,6 +3,7 @@ package com.yap.ride_project.controller.controllerAdvice;
 import com.yap.ride_project.dto.request.ErrorResponseDTO;
 import com.yap.ride_project.exception.BikeTypeParsingException;
 import com.yap.ride_project.exception.NotSuchRideException;
+import com.yap.ride_project.exception.RideQueryParameterException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,8 +24,16 @@ public class RideControllerAdvice {
 
     @ExceptionHandler(BikeTypeParsingException.class)
     public ResponseEntity<ErrorResponseDTO> bikeTypeParsingError(BikeTypeParsingException e){
-        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.BAD_REQUEST)
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .errorMsg("자전거 타입 파싱 에러").exceptionMsg(e.getMessage()).build();
+
+        return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(RideQueryParameterException.class)
+    public ResponseEntity<ErrorResponseDTO> rideQueryParameterException(RideQueryParameterException e){
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .errorMsg("검색 쿼리파라미터 파싱 에러").exceptionMsg(e.getMessage()).build();
 
         return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.BAD_REQUEST);
     }
