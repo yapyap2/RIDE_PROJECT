@@ -5,6 +5,7 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yap.ride_project.dto.request.CreateRideRequestDTO;
+import com.yap.ride_project.dto.request.RideListQuery;
 import com.yap.ride_project.dto.response.SimpleRideResponseDTO;
 import com.yap.ride_project.entity.Ride;
 import com.yap.ride_project.entity.SimpleRide;
@@ -53,39 +54,10 @@ public class RideService {
         return makeResponseDtoList(list);
     }
 
-    public List<SimpleRideResponseDTO> queryRide(Map<String, Object> query){
+    public List<SimpleRideResponseDTO> queryRide(RideListQuery query){
 
-        if(!query.containsKey("start_date_left")){
-            query.put("start_date_left", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        }
+        BooleanBuilder builder = query.getBuilder();
 
-        BooleanBuilder builder = new BooleanBuilder();
-        for(String key : query.keySet()){
-            switch (key){
-                case "name" : builder.and(ride.rideName.contains((String) query.get(key))); break;
-                case "distance_upper_limit" : builder.and(ride.distance.loe(Double.parseDouble((String) query.get("distance_upper_limit")))); break;
-                case "distance_lower_limit" : builder.and(ride.distance.goe(Double.parseDouble((String) query.get("distance_lower_limit")))); break;
-                case "start_location_code" : builder.and(ride.startLocationCode.eq((String) query.get("start_location_code"))); break;
-                case "start_date_left" : builder.and(ride.startDate.after(LocalDateTime.parse((String) query.get("start_date_left")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))); break;
-                case "start_date_right" : builder.and(ride.startDate.before(LocalDateTime.parse((String) query.get("start_date_right")+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))); break;
-                case "bike_type" : {
-                    String typeStr = (String) query.get("bike_type");
-                    for(String type : typeStr.split(",")){
-                        switch (type){
-                            case "R" : builder.and(ride.roadbike.isTrue()); break;
-                            case "M" : builder.and(ride.mtb.isTrue()); break;
-                            case "H" : builder.and(ride.hybrid.isTrue()); break;
-                            case "V" : builder.and(ride.minivelo.isTrue()); break;
-                            case "N" : builder.and(ride.none.isTrue()); break;
-                            case "C" : builder.and(ride.cx.isTrue()); break;
-                            default: throw new RideQueryParameterException("잘못된 bike_type type: " + type);
-                        }
-                    }
-                    break;
-                }
-                default: throw new RideQueryParameterException("잘못된 쿼리파라미터 key: " + key + " / value: " + query.get(key));
-            }
-        }
 
         List<SimpleRideQueryDSL> result = jpaQueryFactory
                 .select(Projections.fields(SimpleRideQueryDSL.class, ride.rideId, ride.rideName, ride.distance, ride.elevation, ride.startLocationCode, ride.startDate, ride.ownerUserId))

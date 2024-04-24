@@ -1,6 +1,7 @@
 package com.yap.ride_project.controller;
 
 import com.yap.ride_project.dto.request.CreateRideRequestDTO;
+import com.yap.ride_project.dto.request.RideListQuery;
 import com.yap.ride_project.dto.response.SimpleRideResponseDTO;
 import com.yap.ride_project.entity.Ride;
 import com.yap.ride_project.service.RideService;
@@ -34,11 +35,12 @@ public class RideController {
     }
 
     @GetMapping("/rideList/query")
-    public ResponseEntity<List<SimpleRideResponseDTO>> findRideList(@RequestParam Map<String, Object> queryMap){
+    public ResponseEntity<List<SimpleRideResponseDTO>> findRideList(@RequestParam Map<String, String> queryMap){
 
 
+        RideListQuery query = new RideListQuery(queryMap);
 
-        return ResponseEntity.ok(rideService.queryRide(queryMap));
+        return ResponseEntity.ok(rideService.queryRide(query));
     }
 
 }
