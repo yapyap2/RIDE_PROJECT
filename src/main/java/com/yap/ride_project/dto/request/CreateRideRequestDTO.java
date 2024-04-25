@@ -23,7 +23,7 @@ public class CreateRideRequestDTO {
     @JsonProperty("user_id")
     private long userId;
     @NotNull
-    @Size(min = 2, max = 20)
+    @Size(min = 2, max = 30)
     @JsonProperty("ride_name")
     private String rideName;
     private String description;

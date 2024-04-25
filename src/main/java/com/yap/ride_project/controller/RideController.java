@@ -44,13 +44,13 @@ public class RideController {
             @RequestParam(required = false) String name,
 
             @Parameter(description = "라이딩 거리 최대 (Double, 이하)", example = "100")
-            @RequestParam(name = "distance_upper_limit", required = false) Double distanceUpperLimit,
+            @RequestParam(name = "distanceFrom", required = false) Double distanceUpperLimit,
 
             @Parameter(description = "라이딩 거리 최소 (Double, 이상)", example = "100")
-            @RequestParam(name = "distance_lower_limit", required = false) Double distanceLowerLimit,
+            @RequestParam(name = "distanceTo", required = false) Double distanceLowerLimit,
 
             @Parameter(description = "시작 지점 지역코드 (String, equal 비교)", example = "101000")
-            @RequestParam(name = "start_location_code", required = false) String startLocationCode,
+            @RequestParam(name = "startLocationCode", required = false) String startLocationCode,
 
             @Parameter(description = "라이딩 일자 이후 (String, 이상, yyyy-MM-dd) 값을 주지 않는 경우 당일 날짜 이후로 검색", example = "2024-04-24")
             @RequestParam(name = "start_date_left", required = false) String startDateLeft,
@@ -59,7 +59,7 @@ public class RideController {
             @RequestParam(name = "start_date_right", required = false) String startDateRight,
 
             @Parameter(description = "참가 가능 자전거 종류 (String BikeType 코드) , 으로 구분해서 코드 전달(공백 없어야함)",example = "R,H")
-            @RequestParam(name = "bike_type", required = false) String bikeType
+            @RequestParam(name = "bikeType", required = false) String bikeType
     ){
 
         RideListQuery query = new RideListQuery.Builder()
