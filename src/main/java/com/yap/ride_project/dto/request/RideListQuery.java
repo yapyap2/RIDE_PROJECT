@@ -42,7 +42,7 @@ public class RideListQuery {
         }
 
         public Builder distanceUpperLimit(Double upperLimit){
-            if(upperLimit == null) return this;
+            if(upperLimit == null || upperLimit >= 700) return this;
             builder.and(ride.distance.loe(upperLimit));
             return this;
         }
@@ -53,7 +53,7 @@ public class RideListQuery {
             return this;
         }
 
-        public Builder startLocationCode(String locationCode){
+        public Builder startLocationCode(String locationCode){ //로케이션 코드는 여러개 받을 수 있어야 함
             if(locationCode == null) return this;
             builder.and(ride.startLocationCode.eq(locationCode));
             return this;
