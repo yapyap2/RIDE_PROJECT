@@ -35,7 +35,7 @@ public class RideListQuery {
         }
 
         public Builder name(String name){
-            if(name == null) return this;
+            if(name.equals("") || name == null) return this;
             if(name.equals("")) throw new RideQueryParameterException("name 필드 파싱 에러. 빈 문자열입니다.");
             builder.and(ride.rideName.contains(name));
             return this;
@@ -64,7 +64,7 @@ public class RideListQuery {
             try{
                 builder.and(ride.startDate.after(LocalDateTime.parse(left+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             } catch (DateTimeParseException e){
-                throw new RideQueryParameterException("start_date_left 필드 파싱 에러. yyyy-MM-dd 형식이 아닙니다. value: " + left);
+                throw new RideQueryParameterException("start_date_left 필드 파싱 에러. yyyy-MM-dd 형식이 아닙니다. value: " + left, e);
             }
             return this;
         }
@@ -74,7 +74,7 @@ public class RideListQuery {
             try{
                 builder.and(ride.startDate.before(LocalDateTime.parse(right+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             } catch (DateTimeParseException e){
-                throw new RideQueryParameterException("start_date_right 필드 파싱 에러. yyyy-MM-dd 형식이 아닙니다. value: " + right);
+                throw new RideQueryParameterException("start_date_right 필드 파싱 에러. yyyy-MM-dd 형식이 아닙니다. value: " + right, e);
             }
             return this;
         }
