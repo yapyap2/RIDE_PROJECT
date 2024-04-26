@@ -3,6 +3,7 @@ package com.yap.ride_project.dto.request;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.yap.ride_project.dto.LocationCode;
 import com.yap.ride_project.entity.enums.BikeType;
 import com.yap.ride_project.exception.BikeTypeParsingException;
 import com.yap.ride_project.exception.RideQueryParameterException;
@@ -10,10 +11,8 @@ import com.yap.ride_project.exception.RideQueryParameterException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Map;
 
+import static com.yap.ride_project.dto.LocationCode.LOCATION_CODES;
 import static com.yap.ride_project.entity.QRide.ride;
 
 public class RideListQuery {
@@ -55,9 +54,15 @@ public class RideListQuery {
             return this;
         }
 
-        public Builder startLocationCode(String locationCode){ //로케이션 코드는 여러개 받을 수 있어야 함
-            if(locationCode == null) return this;
-            builder.and(ride.startLocationCode.eq(locationCode));
+        public Builder startLocationCode(String locationCodes){
+            if(locationCodes == null) return this;
+
+            String[] locations = locationCodes.split(",");
+            for(String location : locations){
+                if(!LOCATION_CODES.contains(location)) throw new RideQueryParameterException("지역 코드 파싱 오류. 존재하지 않는 지역코드 입니다. code: " + location);
+            }
+
+            builder.and(ride.startLocationCode.in(locations));
             return this;
         }
 

@@ -44,18 +44,43 @@ class RideServiceTest {
         dto.setDistance(100D);
         dto.setDescription("this is test ride");
         dto.setUserId(1);
-        dto.setBikeType(List.of("R", "M"));
+        dto.setBikeType(List.of(BikeType.ROADBIKE));
         dto.setStartDate("2024-05-01 10:30");
         dto.setStartLocationCode("1111");
 
         rideService.saveRide(dto);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", "test");
-        map.put("distance_upper_limit", 50);
+
+    }
 
 
-        rideService.queryRide(map);
 
+    static class QueryBuilder{
+        private Map<String, Object> map;
+
+        public QueryBuilder name(String name){
+            map.put("name", name);
+            return this;
+        }
+
+        public QueryBuilder distanceUpperLimit(Double d){
+            map.put("distance_upper_limit", d);
+            return this;
+        }
+
+        public QueryBuilder distanceLowerLimit(Double d){
+            map.put("distance_lower_limit", d);
+            return this;
+        }
+
+        public QueryBuilder startDateLeft(String d){
+            map.put("distance_upper_limit", d);
+            return this;
+        }
+
+
+        public Map<String, Object> build(){
+            return map;
+        }
     }
 }

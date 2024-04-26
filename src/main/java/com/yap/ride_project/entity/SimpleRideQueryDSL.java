@@ -10,7 +10,7 @@ public class SimpleRideQueryDSL implements SimpleRide{
     private LocalDateTime startDate;
     private Long ownerUserId;
 
-
+//유저 이름
 
     @Override
     public Long getRideId() {
