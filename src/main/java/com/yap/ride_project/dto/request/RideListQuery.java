@@ -9,6 +9,7 @@ import com.yap.ride_project.exception.RideQueryParameterException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Map;
@@ -29,14 +30,15 @@ public class RideListQuery {
 
     public static class Builder{
         BooleanBuilder builder;
+        StringBuilder stringBuilder;
 
         public Builder(){
             this.builder = new BooleanBuilder();
+            this.stringBuilder = new StringBuilder();
         }
 
         public Builder name(String name){
-            if(name.equals("") || name == null) return this;
-            if(name.equals("")) throw new RideQueryParameterException("name 필드 파싱 에러. 빈 문자열입니다.");
+            if(name == null || name.equals("")) return this;
             builder.and(ride.rideName.contains(name));
             return this;
         }
@@ -59,23 +61,14 @@ public class RideListQuery {
             return this;
         }
 
-        public Builder startDateLeft(String left){
-            if(left == null) left = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            try{
-                builder.and(ride.startDate.after(LocalDateTime.parse(left+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-            } catch (DateTimeParseException e){
-                throw new RideQueryParameterException("start_date_left 필드 파싱 에러. yyyy-MM-dd 형식이 아닙니다. value: " + left, e);
-            }
-            return this;
-        }
+        public Builder dateRange(String range){
+            builder.and(ride.startDate.after(LocalDateTime.now()));
+            if(range == null) return this;
 
-        public Builder startDateRight(String right){
-            if(right == null) return this;
-            try{
-                builder.and(ride.startDate.before(LocalDateTime.parse(right+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-            } catch (DateTimeParseException e){
-                throw new RideQueryParameterException("start_date_right 필드 파싱 에러. yyyy-MM-dd 형식이 아닙니다. value: " + right, e);
-            }
+            if(range.equals("today")) builder.and(ride.startDate.before(LocalDateTime.of(LocalDate.now(), LocalTime.MAX)));
+            else if(range.equals("half_month")) builder.and(ride.startDate.before(LocalDateTime.of(LocalDate.now().plusDays(15), LocalTime.MAX)));
+            else if(range.equals("full_month")) builder.and(ride.startDate.before(LocalDateTime.of(LocalDate.now().plusDays(30), LocalTime.MAX)));
+            else{ throw new RideQueryParameterException("dateRange 필드 파싱 에러. 규정 외 코드 입니다. dataRange:" + range);}
             return this;
         }
 
