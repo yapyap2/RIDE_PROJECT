@@ -1,11 +1,6 @@
 package com.yap.ride_project.dto.request;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.yap.ride_project.dto.LocationCode;
-import com.yap.ride_project.entity.enums.BikeType;
-import com.yap.ride_project.exception.BikeTypeParsingException;
 import com.yap.ride_project.exception.RideQueryParameterException;
 
 import java.time.LocalDate;
