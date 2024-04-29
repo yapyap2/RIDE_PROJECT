@@ -71,7 +71,6 @@ public class RideController {
                 .dateRange(dateRange)
                 .bikeType(bikeType).build();
 
-
         return ResponseEntity.ok(rideService.queryRide(query));
     }
 

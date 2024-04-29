@@ -47,7 +47,7 @@ public class Ride {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "OWNER_USER_ID")
     private User ownerUser;

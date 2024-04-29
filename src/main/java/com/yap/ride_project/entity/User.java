@@ -36,9 +36,9 @@ public class User {
     private float ftp;
     private String locationCode;
     private LocalDate startAt;
-    @OneToMany(mappedBy = "ownerUser", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Ride> ownRide;
+//    @OneToMany(mappedBy = "ownerUser", fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private List<Ride> ownRide;
     @CreationTimestamp
     private LocalDate createAt;
     @UpdateTimestamp
