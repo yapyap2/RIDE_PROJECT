@@ -2,6 +2,8 @@ package com.yap.ride_project.controller.controllerAdvice;
 
 import com.yap.ride_project.dto.request.ErrorResponseDTO;
 import com.yap.ride_project.exception.NotSuchUserException;
+import com.yap.ride_project.exception.UIDMismatchException;
+import com.yap.ride_project.exception.UserStartAtParsingException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -39,7 +41,6 @@ public class UserControllerAdvice {
         return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-
     @ExceptionHandler(NotSuchUserException.class)
     public ResponseEntity<ErrorResponseDTO> noSuchUser(NotSuchUserException e){
 
@@ -48,6 +49,21 @@ public class UserControllerAdvice {
 
         return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(UIDMismatchException.class)
+    public ResponseEntity<ErrorResponseDTO> uidMisMatch(UIDMismatchException e){
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.FORBIDDEN)
+                .errorMsg("UID가 일치하지 않음.").exceptionMsg("uid:" + e.getMessage()).build();
+        return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(UserStartAtParsingException.class)
+    public ResponseEntity<ErrorResponseDTO> startAtParsingError(UserStartAtParsingException e){
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .errorMsg("start_at 필드 오류.").exceptionMsg( e.getMessage()).build();
+        return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
     private static HttpHeaders getHttpHeader() {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Content-Type", MediaType.APPLICATION_JSON +";charset=UTF-8");

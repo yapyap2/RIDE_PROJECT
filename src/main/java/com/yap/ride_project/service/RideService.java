@@ -1,7 +1,6 @@
 package com.yap.ride_project.service;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yap.ride_project.dto.request.CreateRideRequestDTO;
@@ -13,7 +12,6 @@ import com.yap.ride_project.entity.SimpleRideQueryDSL;
 import com.yap.ride_project.entity.User;
 import com.yap.ride_project.exception.NotSuchRideException;
 import com.yap.ride_project.exception.NotSuchUserException;
-import com.yap.ride_project.exception.RideQueryParameterException;
 import com.yap.ride_project.repository.RideRepository;
 import com.yap.ride_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +19,10 @@ import org.springframework.stereotype.Service;
 
 import static com.yap.ride_project.entity.QRide.ride;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

@@ -10,27 +10,22 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
-public class SignInRequestDTO {
 
+@Data
+public class UpdateUserRequestDTO {
     @NotBlank
     private String UID;
     @NotNull
-    @Size(min = 2, max = 20)
+    private Long id;
     private String name;
     private String description;
-    @NotNull
-    private int age;
-    @NotNull
-    private int gender;
-    private float ftp;
+    private Integer age;
+    private Integer gender;
+    private Float ftp;
     @JsonProperty("start_at")
     private String startAt;
-    @NotNull
     @JsonProperty("location_code")
     private String locationCode;
     @JsonProperty("bike_type")
-    @NotEmpty
     private List<BikeType> bikeType;
-
 }

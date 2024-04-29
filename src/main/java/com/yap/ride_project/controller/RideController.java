@@ -6,6 +6,7 @@ import com.yap.ride_project.dto.request.RideListQuery;
 import com.yap.ride_project.dto.response.SimpleRideResponseDTO;
 import com.yap.ride_project.entity.Ride;
 import com.yap.ride_project.service.RideService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,16 +23,19 @@ import java.util.Map;
 public class RideController {
     private final RideService rideService;
 
+    @Operation(summary = "라이딩 추가")
     @PostMapping("/ride")
     public ResponseEntity<Ride> addRide(@RequestBody @Valid CreateRideRequestDTO dto){
         return ResponseEntity.ok(rideService.saveRide(dto));
     }
 
+    @Operation(summary = "라이딩 id로 라이딩 조회")
     @GetMapping("/ride")
     public ResponseEntity<Ride> getSpecificRide(@RequestParam(name = "ride_id") long rideId){
         return ResponseEntity.ok(rideService.getRide(rideId));
     }
 
+    @Operation(summary = "라이딩 검색")
     @GetMapping("/rideList")
     public ResponseEntity<List<SimpleRideResponseDTO>> getRideList(){
 
