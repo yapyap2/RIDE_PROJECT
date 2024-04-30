@@ -5,15 +5,13 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yap.ride_project.dto.request.CreateRideRequestDTO;
 import com.yap.ride_project.dto.request.RideListQuery;
-import com.yap.ride_project.dto.response.SimpleRideResponseDTO;
-import com.yap.ride_project.entity.Ride;
-import com.yap.ride_project.entity.SimpleRide;
-import com.yap.ride_project.entity.SimpleRideQueryDSL;
-import com.yap.ride_project.entity.User;
+import com.yap.ride_project.dto.response.SimpleRide;
+import com.yap.ride_project.entity.*;
 import com.yap.ride_project.exception.NotSuchRideException;
 import com.yap.ride_project.exception.NotSuchUserException;
 import com.yap.ride_project.repository.RideRepository;
 import com.yap.ride_project.repository.UserRepository;
+import com.yap.ride_project.repository.UserRideRelationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +28,7 @@ public class RideService {
     private final UserRepository userRepository;
     private final RideRepository rideRepository;
     private final JPAQueryFactory jpaQueryFactory;
+    private final UserRideRelationRepository userRideRelationRepository;
 
     public Ride saveRide(CreateRideRequestDTO dto){
 
@@ -43,25 +42,34 @@ public class RideService {
     public Ride getRide(long rideId){
         return rideRepository.findById(rideId).orElseThrow(() -> new NotSuchRideException(rideId));
     }
-    public List<SimpleRideResponseDTO> getAllRide(){
 
-        List<SimpleRide> list = rideRepository.findAllSimpleRideList();
-
-        return makeResponseDtoList(list);
-    }
-
-    public List<SimpleRideResponseDTO> queryRide(RideListQuery query){
+    public List<SimpleRide> queryRide(RideListQuery query){
 
         BooleanBuilder builder = query.getBuilder();
 
-        List<SimpleRideQueryDSL> result = jpaQueryFactory
-                .select(Projections.fields(SimpleRideQueryDSL.class, ride.rideId, ride.rideName, ride.distance, ride.elevation, ride.startLocationCode, ride.startDate, ride.ownerUserId))
+        List<SimpleRide> result = jpaQueryFactory
+                .select(Projections.fields(SimpleRide.class, ride.rideId, ride.rideName, ride.distance, ride.elevation, ride.startLocationCode, ride.startDate, ride.ownerUser.userId.as("ownerUserId"), ride.ownerUser.name.as("ownerUserName")))
                 .from(ride)
                 .where(builder)
                 .fetch();
 
-        return makeResponseDtoList(result);
+        return result;
     }
+
+//    public void addRelation(Long userId, Long rideId, RelationType type){
+//        User user = userRepository.findById(1L).orElseThrow(() -> new NotSuchUserException(userId));
+//        Ride ride = rideRepository.findById(1L).orElseThrow(() -> new NotSuchRideException(rideId));
+//
+//
+//        UserRideRelation relation = userRideRelationRepository.findByUserAndRide(1L, 2L);
+//
+//        if(relation == null) {
+//            relation = new UserRideRelation(user,ride);
+//        }
+//        relation.updateRelation(type);
+//
+//
+//    }
 
 
     private Ride makeRide(CreateRideRequestDTO dto, User user){
@@ -81,13 +89,5 @@ public class RideService {
                 participantMinimum(dto.getParticipantMinimum()).build();
 
         return ride;
-    }
-
-    private List<SimpleRideResponseDTO> makeResponseDtoList(List<? extends SimpleRide> list){
-        List<SimpleRideResponseDTO> dtoList = new ArrayList<>();
-        list.forEach(l ->
-                dtoList.add(new SimpleRideResponseDTO(l))
-        );
-        return dtoList;
     }
 }

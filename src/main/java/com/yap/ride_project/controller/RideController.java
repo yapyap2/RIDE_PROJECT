@@ -3,7 +3,7 @@ package com.yap.ride_project.controller;
 import com.querydsl.core.BooleanBuilder;
 import com.yap.ride_project.dto.request.CreateRideRequestDTO;
 import com.yap.ride_project.dto.request.RideListQuery;
-import com.yap.ride_project.dto.response.SimpleRideResponseDTO;
+import com.yap.ride_project.dto.response.SimpleRide;
 import com.yap.ride_project.entity.Ride;
 import com.yap.ride_project.service.RideService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,14 +36,8 @@ public class RideController {
     }
 
     @Operation(summary = "라이딩 검색")
-    @GetMapping("/rideList")
-    public ResponseEntity<List<SimpleRideResponseDTO>> getRideList(){
-
-        return ResponseEntity.ok(rideService.getAllRide());
-    }
-
     @GetMapping("/rideList/query")
-    public ResponseEntity<List<SimpleRideResponseDTO>> findRideList(
+    public ResponseEntity<List<SimpleRide>> findRideList(
             @Parameter(description = "라이딩 이름 (String, like 비교)")
             @RequestParam(required = false) String name,
 

@@ -52,8 +52,8 @@ public class Ride {
     @JoinColumn(name = "OWNER_USER_ID")
     private User ownerUser;
 
-    @Column(name = "OWNER_USER_ID", insertable = false, updatable = false)
-    private Long ownerUserId;
+//    @Column(name = "OWNER_USER_ID", insertable = false, updatable = false)
+//    private Long ownerUserId;
 
     @Builder
     public Ride(String rideName, String description, Double distance, Double elevation, String startLocationCode, LocalDateTime startDate, Integer estimateTime, Integer ftpLimit, Integer ageLimit, Integer participantLimit, Integer participantMinimum, List<BikeType> bikeType, User ownerUser) {
