@@ -3,8 +3,13 @@ package com.yap.ride_project.controller;
 import com.querydsl.core.BooleanBuilder;
 import com.yap.ride_project.dto.request.CreateRideRequestDTO;
 import com.yap.ride_project.dto.request.RideListQuery;
+import com.yap.ride_project.dto.request.RideRegisterRequestDTO;
+import com.yap.ride_project.dto.response.RelatedRideResponseDTO;
+import com.yap.ride_project.dto.response.RideDetailResponseDTO;
+import com.yap.ride_project.dto.response.RideRegisterResponseDTO;
 import com.yap.ride_project.dto.response.SimpleRide;
 import com.yap.ride_project.entity.Ride;
+import com.yap.ride_project.entity.enums.RelationType;
 import com.yap.ride_project.service.RideService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,7 +36,7 @@ public class RideController {
 
     @Operation(summary = "라이딩 id로 라이딩 조회")
     @GetMapping("/ride")
-    public ResponseEntity<Ride> getSpecificRide(@RequestParam(name = "ride_id") long rideId){
+    public ResponseEntity<RideDetailResponseDTO> getSpecificRide(@RequestParam(name = "ride_id") long rideId){
         return ResponseEntity.ok(rideService.getRide(rideId));
     }
 
@@ -68,4 +73,18 @@ public class RideController {
         return ResponseEntity.ok(rideService.queryRide(query));
     }
 
+    @PostMapping("/ride/register")
+    public ResponseEntity<RideRegisterResponseDTO> addRelation(@RequestBody RideRegisterRequestDTO dto){
+        return ResponseEntity.ok(rideService.addRelation(dto));
+    }
+
+    @GetMapping("/ride/liked")
+    public ResponseEntity<List<RelatedRideResponseDTO>> getLiked(@RequestParam long userId){
+        return ResponseEntity.ok(rideService.getRelatedRide(userId, RelationType.LIKE));
+    }
+
+    @GetMapping("/ride/summited")
+    public ResponseEntity<List<RelatedRideResponseDTO>> getSummited(@RequestParam long userId){
+        return ResponseEntity.ok(rideService.getRelatedRide(userId, RelationType.SUMMIT));
+    }
 }

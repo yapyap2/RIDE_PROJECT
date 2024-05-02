@@ -1,9 +1,7 @@
 package com.yap.ride_project.controller.controllerAdvice;
 
 import com.yap.ride_project.dto.request.ErrorResponseDTO;
-import com.yap.ride_project.exception.BikeTypeParsingException;
-import com.yap.ride_project.exception.NotSuchRideException;
-import com.yap.ride_project.exception.RideQueryParameterException;
+import com.yap.ride_project.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,6 +41,22 @@ public class RideControllerAdvice {
     public ResponseEntity<ErrorResponseDTO> rideQueryParameterException(MethodArgumentTypeMismatchException e){
         ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.BAD_REQUEST)
                 .errorMsg("검색 쿼리파라미터 바인딩 에러. 데이터타입이 잘못됨").exceptionMsg("필드명: " + e.getName() + " 파라미터 값: " + e.getValue().toString() + " 가 잘못되었습니다.").build();
+
+        return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RelationTypeMappingException.class)
+    public ResponseEntity<ErrorResponseDTO> relationRegisterTypeError(RelationTypeMappingException e){
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.BAD_REQUEST)
+                .errorMsg("RelationType 파라미터 바인딩 실패").exceptionMsg(e.getMessage()).build();
+
+        return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RelationUpdateException.class)
+    public ResponseEntity<ErrorResponseDTO> relationUpdateError(RelationUpdateException e){
+        ErrorResponseDTO errorDto = ErrorResponseDTO.builder().status(HttpStatus.BAD_REQUEST)
+                .errorMsg("Relation 등록 실패.").exceptionMsg(e.getMessage()).build();
 
         return new ResponseEntity<ErrorResponseDTO>(errorDto, getHttpHeader(), HttpStatus.BAD_REQUEST);
     }

@@ -14,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -36,14 +37,11 @@ public class User {
     private float ftp;
     private String locationCode;
     private LocalDate startAt;
-//    @OneToMany(mappedBy = "ownerUser", fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private List<Ride> ownRide;
     @CreationTimestamp
-    private LocalDate createAt;
+    private LocalDateTime createAt;
     @UpdateTimestamp
-    private LocalDate updateAt;
-    private LocalDate deleteAt;
+    private LocalDateTime updateAt;
+    private LocalDateTime deleteAt;
     @ElementCollection(targetClass = BikeType.class)
     @CollectionTable(name = "BIKE_TYPE", joinColumns = @JoinColumn(name = "USER_ID"))
     @Enumerated(EnumType.STRING)
