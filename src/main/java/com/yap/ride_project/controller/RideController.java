@@ -73,16 +73,21 @@ public class RideController {
         return ResponseEntity.ok(rideService.queryRide(query));
     }
 
+    @Operation(summary = "라이딩 좋아요, 참가 등록")
     @PostMapping("/ride/register")
     public ResponseEntity<RideRegisterResponseDTO> addRelation(@RequestBody RideRegisterRequestDTO dto){
         return ResponseEntity.ok(rideService.addRelation(dto));
     }
+
+    @Operation(summary = "좋아요 누른 라이딩 조회")
 
     @GetMapping("/ride/liked")
     public ResponseEntity<List<RelatedRideResponseDTO>> getLiked(@RequestParam long userId){
         return ResponseEntity.ok(rideService.getRelatedRide(userId, RelationType.LIKE));
     }
 
+
+    @Operation(summary = "참가 누른 라이딩 조회")
     @GetMapping("/ride/summited")
     public ResponseEntity<List<RelatedRideResponseDTO>> getSummited(@RequestParam long userId){
         return ResponseEntity.ok(rideService.getRelatedRide(userId, RelationType.SUMMIT));
