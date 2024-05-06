@@ -26,7 +26,6 @@ public class SignInRequestDTO {
     private float ftp;
     @JsonProperty("start_at")
     private String startAt;
-    @NotNull
     @JsonProperty("location_code")
     private String locationCode;
     @JsonProperty("bike_type")

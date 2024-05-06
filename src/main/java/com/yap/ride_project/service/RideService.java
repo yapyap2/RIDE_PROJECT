@@ -92,8 +92,6 @@ public class RideService {
         List<RelatedRideResponseDTO> list =  jpaQueryFactory.select(new QRelatedRideResponseDTO(ride.rideId, ride.rideName, ride.distance, ride.elevation, ride.startLocationCode, ride.startDate, ride.ownerUser.userId, ride.ownerUser.name, userRideRelation.createAt, userRideRelation.summited,userRideRelation.liked))
                 .from(userRideRelation)
                 .where(builder).fetch();
-
-
         return list;
     }
 
