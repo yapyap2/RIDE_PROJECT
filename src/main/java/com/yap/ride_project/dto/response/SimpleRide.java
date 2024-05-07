@@ -2,10 +2,12 @@ package com.yap.ride_project.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class SimpleRide {
     private Long rideId;
     private String rideName;
