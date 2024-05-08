@@ -16,6 +16,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +42,12 @@ public class RideController {
     @GetMapping("/ride")
     public ResponseEntity<RideDetailResponseDTO> getSpecificRide(@RequestParam(name = "ride_id") long rideId){
         return ResponseEntity.ok(rideService.getRide(rideId));
+    }
+
+    @Operation(summary = "라이딩 리스트 페이징으로 가져오기")
+    @GetMapping("/rideList")
+    public ResponseEntity<List<SimpleRide>> getRideListPage(@RequestParam int pageNum){
+        return ResponseEntity.ok(rideService.pagingRideList(pageNum));
     }
 
     @Operation(summary = "라이딩 검색")

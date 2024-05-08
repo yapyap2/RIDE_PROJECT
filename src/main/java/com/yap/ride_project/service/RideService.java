@@ -47,6 +47,17 @@ public class RideService {
         return rideRepository.findDetailByRideId(rideId).orElseThrow(() -> new NotSuchRideException(rideId));
     }
 
+    public List<SimpleRide> pagingRideList(int pageNum){
+        List<SimpleRide> result = jpaQueryFactory
+                .select(Projections.fields(SimpleRide.class, ride.rideId, ride.rideName, ride.distance, ride.elevation, ride.startLocationCode, ride.startDate, ride.ownerUser.userId.as("ownerUserId"), ride.ownerUser.name.as("ownerUserName")))
+                .from(ride)
+                .where(ride.startDate.after(LocalDateTime.now()))
+                .offset((pageNum - 1) * 10)
+                .limit(10)
+                .fetch();
+        return result;
+    }
+
     public List<SimpleRide> queryRide(RideListQuery query){
         BooleanBuilder builder = query.getBuilder();
 
